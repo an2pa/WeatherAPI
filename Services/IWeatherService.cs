@@ -9,7 +9,7 @@ namespace Weather_API.Services
     {
         Weather GetCurrent(String town);
       
-        String GetCurrentTempTown(String town);
+        List<Weather> GetHistoryTown(String town, String start_date, String end_date);
         List<Weather> GetWeatherForecastTown(String town);
     }
 }

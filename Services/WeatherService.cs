@@ -35,12 +35,28 @@ namespace Weather_API.Services
             return weather;
         }
 
-        public string GetCurrentTempTown(string town)
+        public List<Weather> GetHistoryTown(String town, String start_date, String end_date)
         {
-            throw new NotImplementedException();
+            var client= new HttpClient();
+            var url=$"https://api.weatherbit.io/v2.0/history/daily?city={town}&start_date={start_date}&end_date={end_date}&key=26f2d4953dd949e4988d3ed461818964";
+             var weatherResponse= client.GetStringAsync(url).Result;
+            var formattedResponseMain= JObject.Parse(weatherResponse);
+            var dataArray = formattedResponseMain["data"];
+           
+            foreach( var item in dataArray){
+                Console.WriteLine("datetime: "+item["datetime"]+" "+item["temp"]+" "+formattedResponseMain["city_name"]);
+                Weather weather1=new Weather{
+                Town= formattedResponseMain["city_name"].ToString(),
+                Date=item["datetime"].ToString(),
+                Temperature=item["temp"].ToString(),
+                Description=" "
+                };
+                weathers.Add(weather1);
+            }
+            return weathers;
         }
 
-        public List<Weather> GetWeatherForecastTown(string town)
+        public List<Weather> GetWeatherForecastTown(String town)
         {
             throw new NotImplementedException();
         }

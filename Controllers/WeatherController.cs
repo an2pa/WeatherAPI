@@ -19,15 +19,15 @@ namespace Weather_API.Controllers
             _weatherService=weatherService;
         }
        
-        [HttpGet("{town}")]
+        [HttpGet("/current/{town}")]
         public ActionResult<Weather> GetCurrent(String town){
             return Ok(_weatherService.GetCurrent(town));
         }
        
-        [HttpGet("/currentTemp/{town}")]
-        public ActionResult<int> GetCurrentTempTown(String town){
+        [HttpGet("/history/{town}/{start_date}/{end_date}")]
+        public ActionResult<List<Weather>> GetCurrentTempTown(String town, String start_date, String end_date){
             
-            return Ok(_weatherService.GetCurrentTempTown(town));
+            return Ok(_weatherService.GetHistoryTown(town, start_date, end_date));
         }
 
         [HttpGet("/weatherForecast/{town}")]
