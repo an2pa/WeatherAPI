@@ -68,7 +68,12 @@ namespace Weather_API.Services
 
         public List<Weather> GetWeatherForecastTown(String town)
         {
-            throw new NotImplementedException();
+            List<Weather> weathers= new List<Weather>{
+                new Weather(),
+                new Weather{Town="Azni yaba"}
+            };
+        
+        return weathers;
         }
     }
 }
