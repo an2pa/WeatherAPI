@@ -55,9 +55,10 @@ namespace Weather_API.Services
                     Temperature =float.Parse(item["temp"].ToString()),
                     Description = " "
                 };
+                Console.WriteLine(weather1);
                 weathers.Add(weather1);
             }
-           
+           Console.WriteLine(weathers);
             var weathersToReturn=weathers.Distinct();
             return weathersToReturn.ToList();
 
@@ -85,9 +86,10 @@ namespace Weather_API.Services
                     Temperature =float.Parse(item["temp"].ToString()),
                     Description = item["weather"]["description"].ToString()
                 };
+                Console.WriteLine(weather1);
                 weathers.Add(weather1);
             }
-           
+           Console.WriteLine(weathers);
             var weathersToReturn=weathers.Distinct();
             return weathersToReturn.ToList();
 
