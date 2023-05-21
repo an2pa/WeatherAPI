@@ -27,8 +27,8 @@ namespace Weather_API.Services
             Weather weather = new Weather
             {
                 Town = dataArray[0].Value<String>("city_name"),
-                Date = DateTime.Parse(dataArray[0].Value<String>("datetime")),
-                Temperature = dataArray[0].Value<String>("temp"),
+                Date = DateTime.Parse(dataArray[0].Value<string>("datetime").Split(':')[0]),
+                Temperature = dataArray[0].Value<float>("temp"),
                 Description = description
             };
             Console.WriteLine(dataArray[0]["weather"].Value<String>("datetime"));
@@ -52,7 +52,7 @@ namespace Weather_API.Services
                 {
                     Town = formattedResponseMain["city_name"].ToString(),
                     Date = DateTime.Parse(item["datetime"].ToString()),
-                    Temperature = item["temp"].ToString(),
+                    Temperature =float.Parse(item["temp"].ToString()),
                     Description = " "
                 };
                 weathers.Add(weather1);
@@ -68,10 +68,29 @@ namespace Weather_API.Services
 
         public List<Weather> GetWeatherForecastTown(String town)
         {
-            List<Weather> weathers= new List<Weather>{
-                new Weather(),
-                new Weather{Town="Azni yaba"}
-            };
+           List<Weather> weathers = new List<Weather>();
+            var client = new HttpClient();
+            var url = $"https://api.weatherbit.io/v2.0/forecast/daily?city={town}&key=26f2d4953dd949e4988d3ed461818964";
+            var weatherResponse = client.GetStringAsync(url).Result;
+            var formattedResponseMain = JObject.Parse(weatherResponse);
+            var dataArray = formattedResponseMain["data"];
+            
+            foreach (var item in dataArray)
+            {
+                Console.WriteLine("datetime: " + item["datetime"] + " " + item["temp"] + " " + formattedResponseMain["city_name"]);
+                Weather weather1 = new Weather
+                {
+                    Town = formattedResponseMain["city_name"].ToString(),
+                    Date = DateTime.Parse(item["datetime"].ToString()),
+                    Temperature =float.Parse(item["temp"].ToString()),
+                    Description = item["weather"]["description"].ToString()
+                };
+                weathers.Add(weather1);
+            }
+           
+            var weathersToReturn=weathers.Distinct();
+            return weathersToReturn.ToList();
+
         
         return weathers;
         }

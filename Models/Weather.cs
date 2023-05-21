@@ -7,10 +7,9 @@ namespace Weather_API.Models
 {
     public class Weather
     {
-        public String Town { get; set; }="Sarajevo";
+        public String Town { get; set; } = "Sarajevo";
         public DateTime Date { get; set; }
-        public String Temperature { get; set; }
-
-        public String Description { get; set; }="Not known";
+        public float Temperature { get; set; }
+        public String Description { get; set; } = "Not known";
     }
 }
